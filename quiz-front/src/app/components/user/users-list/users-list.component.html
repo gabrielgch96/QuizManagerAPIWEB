@@ -1,0 +1,53 @@
+<div class="row">
+    <div class="col-8 offset-2">
+        <h2>Users</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6 offset-2">
+        <input #searchBox id="search-box" (input)="search(searchBox.value)" class="form-control"
+            placeholder="search by last name" />
+        <ul class="search-result">
+            <li *ngFor="let userS of usersSearch$ | async">
+                <a routerLink="/userDetail/{{userS.id}}">
+                    {{userS.first_name}} {{userS.last_name}} | {{userS.email}}
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-2">
+        <button class="btn btn-sm btn-primary" routerLink="/userCreate">Create User</button>
+    </div>
+</div><br>
+<div class="row ">
+    <div class="col-8 offset-2">
+        <table class="table table-hover table-sm">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Password</th>
+                    <th>Admin</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users$">
+                    <th>{{user.id}}</th>
+                    <td>{{user.first_name}}</td>
+                    <td>{{user.last_name}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.password}}</td>
+                    <td>{{user.is_admin}}</td>
+                    <td><button class="btn btn-outline-danger btn-sm" title="delete user"
+                            (click)="deleteUser(user)">x</button></td>
+                    <td><button class="btn btn-outline-info btn-sm" title="update user"
+                            routerLink="/userDetail/{{user.id}}">update</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

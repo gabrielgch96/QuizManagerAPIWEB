@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="col-8 offset-2">
+        <h2>Update topic</h2>
+    </div>
+</div>
+<div *ngIf="topic">
+    <div class="row justify-content-center my-2">
+        <form class="form" #topicForm="ngForm">
+            <div class="form-group row">
+                <label for="inputFirst" class="col-sm-3 col-form-label">Name</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="name" name="name"
+                        [(ngModel)]="topic.name" #name="ngModel" required>
+                </div>
+            </div>
+            <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                Name is required
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-4 offset-sm-2">
+                    <button type="submit" class="btn btn-primary" (click)="goBack()">Back</button>
+                </div>
+                <div class="col-sm-4 ">
+                    <button type="submit" class="btn btn-primary" (click)="updateTopic()"
+                        [disabled]="!topicForm.form.valid">update</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>

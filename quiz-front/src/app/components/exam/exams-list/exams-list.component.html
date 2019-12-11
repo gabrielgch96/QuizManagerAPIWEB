@@ -1,0 +1,53 @@
+<div class="row">
+    <div class="col-8 offset-2">
+        <h2>Exams</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6 offset-2">
+        <input #searchBox id="search-box" (input)="search(searchBox.value)" class="form-control"
+            placeholder="search by title" />
+        <ul class="search-result">
+            <li *ngFor="let examS of examsSearch$ | async">
+                <a routerLink="/examDetail/{{examS.id}}">
+                    {{examS.title}}
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div *ngIf="this.currentUser.is_admin==true">
+        <div class="col-2">
+            <button class="btn btn-sm btn-primary" routerLink="/examCreate">Create Exam</button>
+        </div>
+    </div>
+</div><br>
+<div class="row ">
+    <div class="col-8 offset-2">
+        <table class="table table-hover table-sm">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let exam of examList$">
+                    <th>{{exam.id}}</th>
+                    <td>{{exam.title}}</td>
+                    <div *ngIf="this.currentUser.is_admin==true; else student">
+                        <td><button class="btn btn-outline-danger btn-sm" (click)="deleteExam(exam)"
+                                title="delete exam">x</button></td>
+                        <td><button class="btn btn-outline-info btn-sm" routerLink="/examDetail/{{exam.id}}"
+                                title="update exam">update</button></td>
+                    </div>
+                    <ng-template #student>
+                        <td><button class="btn btn-outline-primary btn-sm" routerLink="/takeExam/{{exam.id}}"
+                                title="take exam">Take</button></td>
+                    </ng-template>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

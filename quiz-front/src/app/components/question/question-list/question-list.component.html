@@ -1,0 +1,55 @@
+<!--<div class="row">
+    <div class="col-8 offset-2">
+        <h2>Questions</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6 offset-2">
+        <input #searchBox id="search-box" (input)="search(searchBox.value)" class="form-control"
+            placeholder="search by content" />
+        <ul class="search-result">
+            <li *ngFor="let questionS of questionsSearch$ | async">
+                <a routerLink="/questionDetail/{{questionS.id}}">
+                    {{questionS.content}} | {{questionS.topic.name}}
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-2">
+        <button class="btn btn-sm btn-primary" routerLink="/questionCreate">Create Question</button>
+    </div>
+</div><br>-->
+<div class="row ">
+    <div class="col-8 offset-2">
+        <table class="table table-hover table-sm">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Content</th>
+                    <th>Topic</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let question of questionList$">
+                    <th>{{question.id}}</th>
+                    <td>{{question.content}}</td>
+                    <td>{{question.topic.name}}</td>
+                    <div *ngIf="modifiable; else examView">
+                        <td><button class="btn btn-outline-danger btn-sm" (click)="deleteQuestion(question)"
+                                title="delete question">x</button></td>
+                        <td><button class="btn btn-outline-info btn-sm" routerLink="/questionDetail/{{question.id}}"
+                                title="update question">update</button></td>
+                    </div>
+                    <ng-template #examView>
+                            <td><button class="btn btn-outline-info btn-sm" routerLink="/questionDetail/{{question.id}}"
+                                title="update question">detail</button></td>
+                        <td><button class="btn btn-outline-success btn-sm" (click)="addQuestionToExam(question)"
+                                title="update question">+</button></td>
+                    </ng-template>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

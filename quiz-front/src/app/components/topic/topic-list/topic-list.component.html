@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col-8 offset-2">
+        <h2>Topics</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6 offset-2">
+        <input #searchBox id="search-box" (input)="search(searchBox.value)" class="form-control"
+            placeholder="search by name" />
+        <ul class="search-result">
+            <li *ngFor="let topicS of topicsSearch$ | async">
+                <a routerLink="/topicDetail/{{topicS.id}}">
+                    {{topicS.id}}| {{topicS.name}}
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-2">
+        <button class="btn btn-sm btn-primary" routerLink="/topicCreate">Create Topic</button>
+    </div>
+</div><br>
+<div class="row ">
+    <div class="col-8 offset-2">
+        <table class="table table-hover table-sm">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let topic of topics$">
+                    <th>{{topic.id}}</th>
+                    <td>{{topic.name}}</td>
+                    <td><button class="btn btn-outline-danger btn-sm" title="delete topic"
+                            (click)="deleteTopic(topic)">x</button></td>
+                    <td><button class="btn btn-outline-info btn-sm" title="update topic"
+                            routerLink="/topicDetail/{{topic.id}}">update</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

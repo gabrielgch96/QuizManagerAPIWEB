@@ -1,0 +1,22 @@
+<div class="row">
+    <div class="col-8 offset-2">
+        <h2>Questions</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6 offset-2">
+        <input #searchBox id="search-box" (input)="search(searchBox.value)" class="form-control"
+            placeholder="search by content" />
+        <ul class="search-result">
+            <li *ngFor="let questionS of questionsSearch$ | async">
+                <a routerLink="/questionDetail/{{questionS.id}}">
+                    {{questionS.content}} | {{questionS.topic.name}}
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-2">
+        <button class="btn btn-sm btn-primary" routerLink="/questionCreate">Create Question</button>
+    </div>
+</div><br>
+<app-question-list [modifiable]="true"></app-question-list>
