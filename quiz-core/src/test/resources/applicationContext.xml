@@ -1,0 +1,94 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<bean id="firstQuery" class="java.lang.String">
+		<constructor-arg>
+			<value>select * from Questions</value>
+		</constructor-arg>
+	</bean>
+
+	<bean id="MAX_SCORE" class="java.lang.Double">
+		<constructor-arg index="0" value="100.0" />
+	</bean>
+
+
+	<bean id="mainDS"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="url"
+			value="jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"></property>
+		<property name="username" value="test"></property>
+		<property name="password" value="test"></property>
+		<property name="driverClassName" value="org.h2.Driver"></property>
+
+	</bean>
+
+	<bean
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean"
+		id="hibernateProperties">
+		<property name="properties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.connection.autocommit">false</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"> 
+		<property name="dataSource" ref="mainDS" /> <property name="hibernateProperties" 
+		ref="hibernateProperties" /> <property name="packagesToScan"> <list> <value>fr.epita.quiz.datamodel</value> 
+		</list> </property> </bean> -->
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="mainDS" />
+		<property name="packagesToScan"
+			value="fr.epita.quiz.datamodel" />
+		<property name="jpaVendorAdapter">
+			<bean
+				class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+		</property>
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory"
+			ref="entityManagerFactory" />
+	</bean>
+	<tx:annotation-driven />
+
+	<bean id="examDAO" class="fr.epita.quiz.services.ExamDAO" />
+	<bean id="questionDAO" class="fr.epita.quiz.services.QuestionDAO" />
+	<bean id="topicDAO" class="fr.epita.quiz.services.TopicDAO" />
+	<bean id="optionDAO" class="fr.epita.quiz.services.OptionDAO" />
+	<bean id="userDAO" class="fr.epita.quiz.services.UserDAO" />
+	<bean id="answerDAO" class="fr.epita.quiz.services.AnswerDAO" />
+	<bean id="submissionDAO"
+		class="fr.epita.quiz.services.SubmissionDAO" />
+
+	<bean id="questionService"
+		class="fr.epita.quiz.services.QuestionService" />
+	<bean id="submissionService"
+		class="fr.epita.quiz.services.SubmissionService" />
+	<bean id="examService" class="fr.epita.quiz.services.ExamService" />
+	<bean id="answerService"
+		class="fr.epita.quiz.services.AnswerService" />
+</beans>
